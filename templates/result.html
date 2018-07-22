@@ -1,0 +1,28 @@
+{% extends 'meta.html' %}
+{% block body %}
+    <div class="card m-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h4 class="card-title">{{ item_id }}</h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">{{ item.sign }}</div>
+                <div class="col"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-3"></div>
+                <div class="col">
+                {% if item.content_type == 'txt' %}
+                    {{ item.content }}
+                {% else %}
+                    <pre><code {% if item.content_type != 'auto' %}class="{{ item.content_type }}"{% endif %}>{{ item.content }}</code></pre>
+                {% endif %}
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

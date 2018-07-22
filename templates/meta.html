@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clipboard.WEB</title>
+    <script src="{{ url_for('static', filename='jQuery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/umd/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/umd/tooltip.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='highlight/highlight.pack.js') }}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-grid.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-reboot.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight/styles/default.css') }}"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-light">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Clipboard.WEB</a>
+    <form class="form-inline" method="POST" action="{{ url_for('search') }}">
+        <div class="btn-group">
+            <input class="form-control rounded-0 " name="id" type="text" placeholder="Search for ID">
+            <button class="btn btn-success" type="submit">Search</button>
+        </div>
+    </form>
+</nav>
+<div class="container">
+    {% block body %} {% endblock %}
+</div>
+</body>
+</html>

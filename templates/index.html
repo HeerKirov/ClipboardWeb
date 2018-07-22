@@ -1,0 +1,53 @@
+{% extends 'meta.html' %}
+{% block body %}
+    <div class="card m-5">
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col"><h4 class="card-title">New Clipboard Record</h4></div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-3"></div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <textarea title="content" class="form-control" rows="10" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <select title="content type" class="form-control" name="content_type">
+                                {% for (k, v) in type_list %}
+                                    <option value="{{ k }}">{{ v }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <a href="#more_div" class="text-center" data-toggle="collapse">File upload</a>
+                            <div id="more_div" class="collapse">
+                                <input type="file" name="upload_file" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <a href="#sign_div" class="text-center" data-toggle="collapse">Sign and encrypt</a>
+                            <div id="sign_div" class="collapse">
+                                <input name="sign" type="text" class="form-control" placeholder="Signature information"/>
+                                <input name="password" type="text" class="form-control mt-1" placeholder="Password"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}
