@@ -1,0 +1,36 @@
+{% extends 'meta.html' %}
+{% block body %}
+    <div class="card m-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h4 class="card-title">{{ item_id }}</h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">
+                    {% if error %}
+                        Access password is wrong. Try again:
+                    {% else %}
+                        This record need a access password:
+                    {% endif %}
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col"></div>
+                <div class="col-auto">
+                <form method="post">
+                    <div class="btn-group">
+                        <input class="form-control" name="password" placeholder="Access password"/>
+                        <button class="btn btn-primary" type="submit">OK</button>
+                    </div>
+                </form>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

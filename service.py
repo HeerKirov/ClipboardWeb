@@ -16,7 +16,6 @@ CONTENT_TYPE = (
 )
 
 
-
 def is_std_type(type_name):
     for (k, v) in CONTENT_TYPE:
         if k == type_name:
@@ -26,6 +25,19 @@ def is_std_type(type_name):
 
 def get_file_type(filename):
     ext = filename.rsplit('.', 1)[1]
+
+
+def get_file_real_path(record_id=None):
+    if record_id is None:
+        if config.file_uploads['path'][0] == '/':
+            return os.path.join(config.file_uploads['path'])
+        else:
+            return os.path.join(sys.path[0], config.file_uploads['path'])
+    else:
+        if config.file_uploads['path'][0] == '/':
+            return os.path.join(config.file_uploads['path'], '%s.upload' % (record_id,))
+        else:
+            return os.path.join(sys.path[0], config.file_uploads['path'], '%s.upload' % (record_id,))
 
 
 class RecordService(object):
@@ -39,14 +51,11 @@ class RecordService(object):
         record_id = int(option.record_count) + 1
         result = database.Record.create(content=content, content_type=content_type,
                                         sign=sign, password=password,
-                                        create_time=datetime.utcnow(), create_ip=create_ip,
+                                        create_time=datetime.now(), create_ip=create_ip,
                                         file_name=file_name, file_type=file_type,
                                         id=record_id)
         if file is not None:
-            if config.file_uploads['path'][0] == '/':
-                file_path = os.path.join(config.file_uploads['path'], '%s.upload' % (record_id,))
-            else:
-                file_path = os.path.join(sys.path[0], config.file_uploads['path'], '%s.upload' % (record_id,))
+            file_path = get_file_real_path(record_id)
             file.save(file_path)
         option.record_count += 1
         database.Option.update(option)

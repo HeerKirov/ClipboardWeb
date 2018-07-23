@@ -1,5 +1,6 @@
 import pymongo
 import config
+from datetime import datetime
 
 
 client = pymongo.MongoClient("mongodb://%s:%s/" % (config.mongodb['host'], config.mongodb['port']))
@@ -33,12 +34,16 @@ class Record(object):
         self.create_time = kwargs.get('create_time')
         self.create_ip = kwargs.get('create_ip')
 
-    def to_json(self, no_mongo_id=False):
+    def to_json(self, no_mongo_id=False, format_datetime=False):
+        if format_datetime and not isinstance(self.create_time, str):
+            output_datetime = datetime.strftime(self.create_time, '%Y-%m-%d %H:%M:%S')
+        else:
+            output_datetime = self.create_time
         ret = {
             'id': self.id,
             'content': self.content,
             'content_type': self.content_type,
-            'create_time': self.create_time,
+            'create_time': output_datetime,
             'create_ip': self.create_ip
         }
         if self.mongo_id is not None and not no_mongo_id:
@@ -77,7 +82,11 @@ class Record(object):
 
     @staticmethod
     def retrieve(record_id):
-        return record_col.find_one({'id': record_id})
+        ret = record_col.find_one({'id': record_id})
+        if ret is not None:
+            return Record(**ret)
+        else:
+            return None
 
 
 class Option(object):

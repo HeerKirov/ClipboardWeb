@@ -1,10 +1,17 @@
 {% extends 'meta.html' %}
+{% block import %}
+    <script src="{{ url_for('static', filename='highlight/highlight.pack.js') }}"></script>
+    <script src="{{ url_for('static', filename='clipboard/dist/clipboard.min.js') }}"></script>
+{% endblock %}
 {% block body %}
     <div class="card m-5">
         <div class="card-body">
             <div class="row">
                 <div class="col">
                     <h4 class="card-title">{{ item_id }}</h4>
+                </div>
+                <div class="col-auto">
+
                 </div>
             </div>
             <div class="row mt-2">
@@ -20,9 +27,46 @@
                 {% else %}
                     <pre><code {% if item.content_type != 'auto' %}class="{{ item.content_type }}"{% endif %}>{{ item.content }}</code></pre>
                 {% endif %}
+                <textarea title="hidden text" id="hidden_txt" hidden>{{ item.content }}</textarea>
                 </div>
-                <div class="col-3"></div>
+                <div class="col-3">
+                    <button id="copy_btn" class="btn btn-sm">
+                        <i class="fa fa-file"></i>
+                    </button>
+                </div>
             </div>
+            {% if item.file_name is defined and item.file_name is not none %}
+                <div class="row mt-5">
+                    <div class="col"></div>
+                    <div class="col-auto">
+                        <a class="btn btn-outline-primary" href="{{ url_for('download', result_id=item_id) }}">Download {{ item.file_name }}</a>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            {% endif %}
+        <div class="row mt-3">
+            <div class="col"></div>
+            <div class="col-auto"><small>{{ item.create_time }}</small></div>
+        </div>
         </div>
     </div>
+    <script>
+        hljs.initHighlightingOnLoad();
+        $(function () {
+            var content = $('#hidden_txt').val();
+            $('#hidden_txt').remove();
+            new Clipboard('#copy_btn', {
+                text: function() {
+                    console.log(content);
+                    if (content && content.length > 0) {
+                        alert("Content has been copied to the clipboard.");
+                        return content;
+                    } else {
+                        alert('copy failed.');
+                        return null;
+                    }
+                }
+            });
+        })
+    </script>
 {% endblock %}

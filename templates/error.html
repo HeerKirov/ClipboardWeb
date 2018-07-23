@@ -1,0 +1,34 @@
+{% extends 'meta.html' %}
+{% block body %}
+    <div class="card m-5">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h4 class="card-title">
+                        {% if code == 400 %}400 Bad Request
+                        {% elif code == 401 %}401 Unauthorized
+                        {% elif code == 403 %}403 Forbidden
+                        {% elif code == 404 %}404 Not Found
+                        {% else %}{{ code }} Server Error
+                        {% endif %}
+                    </h4>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col"></div>
+                <div class="col-auto">
+                    {% if message is defined and message is not none %}
+                        {{ message }}
+                    {% else %}
+                        {% if code == 400 %}Some request data is wrong.
+                        {% elif code == 401 %}Please authorize for this content.
+                        {% elif code == 403 %}You are forbidden to access this content.
+                        {% elif code == 404 %}Content is not Found.
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
