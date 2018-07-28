@@ -27,7 +27,7 @@ def add():
         data_sign = None
     if data_password == '':
         data_password = None
-    if data_file.content_type == '' or data_file.content_type == 'application/octet-stream':
+    if data_file is not None and data_file.filename == '':
         data_file = None
     ip = request.remote_addr
     if data_content.strip() == '' and data_file is None:
